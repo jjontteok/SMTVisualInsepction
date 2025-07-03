@@ -22,21 +22,22 @@ public class BarcodeManager : MonoBehaviour
     private void Start()
     {
         errorText.SetActive(false);
+        imageDisplay.enabled = false;
     }
 
     void Update()
     {
-        if (UnityEngine.Input.GetKeyDown(KeyCode.Return))
+        if (UnityEngine.Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
         {
             string input = barcodeInputField.text;
             OnSubmitBarcode(input);
         }
 
-        if (UnityEngine.Input.GetKeyDown(KeyCode.LeftArrow))
+        if (UnityEngine.Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.Keypad4))
         {
             ChangePage(-1);
         }
-        if (UnityEngine.Input.GetKeyDown(KeyCode.RightArrow))
+        if (UnityEngine.Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.Keypad6))
         {
             ChangePage(1);
         }
@@ -54,7 +55,7 @@ public class BarcodeManager : MonoBehaviour
             if (File.Exists(filePath))
             {
                 byte[] fileData = File.ReadAllBytes(filePath);
-                Texture2D tex = new Texture2D(2, 2);
+                Texture2D tex = new Texture2D(1, 1);
                 tex.LoadImage(fileData);
                 _pages.Add(tex);
             }
@@ -66,6 +67,7 @@ public class BarcodeManager : MonoBehaviour
         if (_pages.Count > 0)
         {
             errorText.SetActive(false);
+            imageDisplay.enabled = true;
             ShowImage(0);
         }
         else
